@@ -1,0 +1,22 @@
+# Loại bỏ file rác biên dịch Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# Loại bỏ thư mục build của Rust
+target/
+Cargo.lock
+
+# Loại bỏ file biên dịch của C/C++
+build/
+*.o
+*.elf
+*.hex
+*.bin
+
+# File rác của hệ điều hành và IDE
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
