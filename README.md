@@ -1,41 +1,65 @@
-# MosquitoSortingLab 🦟
-> **Automated mosquito sorting system using AI vision and embedded control.**
+# Task Speed Calculation Module ⚙️
+> **Module tính toán động học và tạo biên dạng gia tốc hình thang cho đĩa xoay và băng chuyền.**
 
 ---
 
-## 1. Project Overview
-**MosquitoSortingLab** (phát triển dựa trên kiến trúc **LoadingSystem**) là hệ thống phân loại tự động cấp công nghiệp. Hệ thống tự động nhận diện, phân loại mẫu muỗi (mosquito specimens) và định vị đĩa xoay để đưa chúng vào các lọ thủy tinh tương ứng bằng cách kết hợp:
+## 1. Giới thiệu tổng quan
+Module `motion_calc.py` nằm trong phân hệ **Embedded Control (Module 3)** của dự án **MosquitoSortingLab**. Module này cung cấp các thuật toán tính toán động học cốt lõi để chuyển đổi các yêu cầu chuyển động từ tầng AI (vận tốc dài m/s hoặc số lọ đích) thành các tham số điều khiển trực tiếp cho động cơ Servo (vòng/phút - RPM và tần số phát xung - Hz).
 
-*   **AI Vision:** Camera 4K thu thập hình ảnh + Mô hình học sâu (YOLO/MobileNet) chạy trên Jetson Nano hoặc Raspberry Pi để nhận diện và gán nhãn loài muỗi theo thời gian thực.
-*   **Embedded Control:** Vi điều khiển ESP32 được lập trình bằng ngôn ngữ **Rust** (sử dụng Embassy framework) chịu trách nhiệm nhận dữ liệu phân loại và phát xung Pulse/Direction điều khiển động cơ.
-*   **Servo Drive:** Bộ Drive **CSD7-02DX1** (RS Automation, công suất 200W) điều khiển động cơ Servo **CSMT-02BR1ABT3** quay đĩa xoay phân loại (turntable) chính xác tuyệt đối.
-*   **Communication:** Kết nối không dây Wifi/Bluetooth đảm nhiệm việc truyền gói tin chứa nhãn phân loại từ bộ xử lý AI Host (RPi) xuống vi điều khiển ESP32.
+### Chức năng chính:
+*   **Tính toán động học băng chuyền (Conveyor Belt):** Đổi từ tốc độ dài đặt ($v$ m/s) sang RPM của động cơ và tần số phát xung tương ứng sau hộp số giảm tốc cơ khí.
+*   **Tính toán động học đĩa xoay (Rotary Disc):** Xác định chiều quay tối ưu nhất (quay thuận CW hoặc quay ngược CCW) để di chuyển giữa 10 vị trí lọ thủy tinh trên đĩa xoay theo quãng đường ngắn nhất.
+*   **Tạo biên dạng hình thang (Trapezoidal Motion Profile):** Tự động sinh phân bổ số xung và tần số cho 3 giai đoạn (Tăng tốc -> Tốc độ đều -> Giảm tốc) giúp đĩa xoay khởi động và dừng mượt mà, tránh rung lắc cơ khí. Tự động chuyển đổi thành biên dạng hình tam giác (Triangle Profile) nếu quãng đường di chuyển quá ngắn.
 
 ---
 
-## 2. System Architecture
+## 2. Cấu trúc thư mục làm việc
+```
+feature/Speed_Calculation_Demo
+├── motion_calc.py                        # Mã nguồn thuật toán chính
+├── Hướng dẫn giải thích code Task 3.docx  # Tài liệu giải thích chi tiết chương trình
+└── README.md                             # Tài liệu giới thiệu nhanh này
+```
 
+---
+
+## 3. Hướng dẫn sử dụng nhanh
+
+### 3.1. Chạy chương trình Demo
+Chương trình tích hợp sẵn hàm demo thực tế. Chạy trực tiếp file code để quan sát kết quả tính toán động học:
+```bash
+python motion_calc.py
 ```
-Camera (4K) ──capture──→ Raspberry Pi (AI Inference)
-                              │
-                    Wifi / Bluetooth (Wireless)
-                              │
-                              ▼
-                         ESP32 (Rust)
-                              │
-                     Pulse / Direction (24V Logic)
-                              │
-                              ▼
-                   Servo Drive CSD7-02DX1
-                              │
-                         3-phase AC
-                              │
-                              ▼
-                  Servo Motor CSMT-02BR1ABT3
-                              │
-                    Đĩa xoay phân loại muỗi
-                      (10 lọ thủy tinh)
+
+### 3.2. Ví dụ tích hợp code
+```python
+from motion_calc import (
+    calculate_conveyor_speed, ConveyorParams,
+    calculate_disc_rotation, DiscParams
+)
+
+# 1. Cấu hình & tính toán băng chuyền (con lăn Ø50mm, hộp số giảm tốc 5:1)
+conveyor_cfg = ConveyorParams(roller_diameter_mm=50.0, gear_ratio=5.0)
+res_conv = calculate_conveyor_speed(target_speed_ms=0.1, params=conveyor_cfg)
+print(f"Motor RPM: {res_conv.motor_rpm:.2f} RPM | Pulse Freq: {res_conv.pulse_frequency_hz:.0f} Hz")
+
+# 2. Cấu hình & tính toán quay đĩa xoay (di chuyển từ lọ 1 đến lọ 4)
+disc_cfg = DiscParams(num_jars=10)
+res_disc = calculate_disc_rotation(current_jar=1, target_jar=4, params=disc_cfg)
+print(f"Tổng số xung: {res_disc.total_pulses} | Chiều quay: {res_disc.direction.name}")
 ```
+
+---
+
+## 4. Công thức toán học cốt lõi
+
+### Động học băng chuyền:
+$$\text{RPM} = \frac{v \times 60}{\pi \times D \times \text{gear\_ratio}}$$
+$$\text{Pulse\_Freq (Hz)} = \frac{\text{RPM} \times \text{PPR} \times \text{CMX}}{60 \times \text{CDV}}$$
+
+### Động học đĩa xoay:
+$$\text{Pulses} = \frac{\text{Angle\_deg}}{360^\circ} \times \text{PPR} \times \frac{\text{CMX}}{\text{CDV}}$$
+$$\text{Pulses\_accel} = \frac{\text{Peak\_frequency} \times \text{Accel\_time}}{2}$$
 
 ---
 
