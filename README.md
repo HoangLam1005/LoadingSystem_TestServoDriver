@@ -1,4 +1,4 @@
-# Hướng dẫn kiểm thử Task Servo Control.
+# Hướng dẫn kiểm thử Task Servo Control
 
 Tài liệu này hướng dẫn chi tiết quy trình kiểm thử (Unit Test, Integration Test và Hardware Test) cho mã nguồn điều khiển Servo Motor. Thư mục này chứa 3 phiên bản triển khai điều khiển động cơ Servo **RS Automation CSMT-02BR1ABT3** qua bộ Drive **CSD7-02DX1**:
 
@@ -14,7 +14,7 @@ Tài liệu này hướng dẫn chi tiết quy trình kiểm thử (Unit Test, I
 ```
 ┌─────────────────┐       USB       ┌──────────────────┐    RS-485     ┌──────────────┐
 │  Raspberry Pi 5 │ ──────────────> │ USB-to-RS485     │ ────────────> │ CSD7 COMM    │
-│  (Host PC)      │                 │ Converter (CH340)│   (A+, B-)   │ Port (Tyco)  │
+│  (Host PC)      │                 │ Converter (CH340)│   (A+, B-)    │ Port (Tyco)  │
 └─────────────────┘                 └──────────────────┘               └──────────────┘
 ```
 * **Đấu nối:** Cổng COMM của Drive CSD7 sử dụng cổng Tyco Mini-I/O 8-pin. Kết nối chân 1 (A+) và chân 2 (B-) về cổng RS-485 của USB Converter. Nối đất chung chân 3 (GND).
