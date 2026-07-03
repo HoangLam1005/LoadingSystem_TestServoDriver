@@ -1,0 +1,71 @@
+# servo_params.toml
+# Thông số Servo Motor/Drive cho LoadingSystem Module 3
+# Nguồn: Datasheet CSMT-02BR1ABT3 + CSD7-02DX1
+# Ngày trích xuất: 01/07/2026
+
+[motor]
+model = "CSMT-02BR1ABT3"
+rated_power_w = 200
+rated_torque_nm = 0.64
+max_torque_nm = 1.91
+rated_speed_rpm = 3000
+max_speed_rpm = 5000
+rated_current_a = 1.3
+max_current_a = 3.9
+rotor_inertia_kgm2 = 0.00016
+poles = 8
+
+[encoder]
+type = "serial_absolute_23bit"
+resolution_ppr = 8388608
+is_absolute = true
+battery_less = true
+
+[drive]
+model = "CSD7-02DX1"
+max_pulse_frequency_hz = 4000000
+min_pulse_width_ns = 125
+
+[drive.electronic_gear]
+cmx = 1
+cdv = 1
+
+[drive.electronic_gear.disc_10jar]
+cmx = 10000
+cdv = 8388608
+
+[drive.electronic_gear.conveyor]
+cmx = 100000
+cdv = 8388608
+
+[drive.io_pins]
+pulse_plus = "CN1_Pin1"
+pulse_minus = "CN1_Pin2"
+sign_plus = "CN1_Pin3"
+sign_minus = "CN1_Pin4"
+servo_on = "CN1_Pin7"
+servo_ready = "CN1_Pin9"
+in_position = "CN1_Pin11"
+alarm = "CN1_Pin13"
+alarm_reset = "CN1_Pin15"
+
+[drive.modbus]
+port = "COMM"
+default_baud = 38400
+slave_id = 1
+data_bits = 8
+parity = "none"
+stop_bits = 1
+
+[motion_profile]
+default_accel_time_ms = 300
+default_decel_time_ms = 300
+default_max_speed_rpm = 500
+jog_speed_rpm = 100
+
+[safety]
+watchdog_timeout_ms = 500
+emergency_stop_decel_ms = 50
+max_position_error_pulses = 1000
+over_speed_threshold_rpm = 5500
+over_current_threshold_a = 4.0
