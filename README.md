@@ -1,6 +1,6 @@
-# Hướng dẫn kiểm thử Task 2 – Servo Control Code
+# Hướng dẫn kiểm thử Task Servo Control.
 
-Tài liệu này hướng dẫn chi tiết quy trình kiểm thử (Unit Test, Integration Test và Hardware Test) cho mã nguồn điều khiển Servo Motor trong thư mục `Task2_Servo_Control_Code`. Thư mục này chứa 3 phiên bản triển khai điều khiển động cơ Servo **RS Automation CSMT-02BR1ABT3** qua bộ Drive **CSD7-02DX1**:
+Tài liệu này hướng dẫn chi tiết quy trình kiểm thử (Unit Test, Integration Test và Hardware Test) cho mã nguồn điều khiển Servo Motor. Thư mục này chứa 3 phiên bản triển khai điều khiển động cơ Servo **RS Automation CSMT-02BR1ABT3** qua bộ Drive **CSD7-02DX1**:
 
 1. **Python (`servo_control.py`):** Chạy trên Host (Raspberry Pi 5 / PC) điều khiển qua giao thức truyền thông Modbus-RTU (RS-485).
 2. **Rust (`servo_control.rs`):** Chạy trên vi điều khiển STM32 sử dụng Embassy framework phát xung Pulse/Direction.
