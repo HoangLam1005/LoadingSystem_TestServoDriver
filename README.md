@@ -54,15 +54,16 @@ print(f"Tổng số xung: {res_disc.total_pulses} | Chiều quay: {res_disc.dire
 ## 4. Công thức toán học cốt lõi
 
 ### Động học băng chuyền:
-$$\text{RPM} = \frac{v \times 60}{\pi \times D \times \text{gear\_ratio}}$$
+$$\text{RPM} = \frac{v \times 60}{\pi \times D \times \text{gearRatio}}$$
 
-Tần số xung phát lệnh điều khiển $\text{Pulse\_Freq}$ (Hz):
-$$\text{Pulse\_Freq} = \frac{\text{RPM} \times \text{PPR} \times \text{CMX}}{60 \times \text{CDV}}$$
+Tần số xung phát lệnh điều khiển $\text{PulseFreq}$ (Hz):
+$$\text{PulseFreq} = \frac{\text{RPM} \times \text{PPR} \times \text{CMX}}{60 \times \text{CDV}}$$
 
 ### Động học đĩa xoay:
-$$\text{Pulses} = \frac{\text{Angle\_deg}}{360^\circ} \times \text{PPR} \times \frac{\text{CMX}}{\text{CDV}}$$
+$$\text{Pulses} = \frac{\text{AngleDeg}}{360^\circ} \times \text{PPR} \times \frac{\text{CMX}}{\text{CDV}}$$
 
-Số xung tính toán cho giai đoạn tăng tốc $\text{Pulses}_{\text{accel}}$:
-$$\text{Pulses}_{\text{accel}} = \frac{\text{Peak\_frequency} \times \text{Accel\_time}}{2}$$
+Số xung tính toán cho giai đoạn tăng tốc:
+$$\text{Pulses}_{\text{accel}} = \frac{\text{PeakFrequency} \times \text{AccelTime}}{2}$$
+
 ---
 
