@@ -1,7 +1,6 @@
 # servo_params.toml
 # Thông số Servo Motor/Drive cho LoadingSystem Module 3
 # Nguồn: Datasheet CSMT-02BR1ABT3 + CSD7-02DX1
-# Ngày trích xuất: 01/07/2026
 
 [motor]
 model = "CSMT-02BR1ABT3"
