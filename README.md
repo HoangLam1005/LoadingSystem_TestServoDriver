@@ -55,10 +55,12 @@ print(f"Tổng số xung: {res_disc.total_pulses} | Chiều quay: {res_disc.dire
 
 ### Động học băng chuyền:
 $$\text{RPM} = \frac{v \times 60}{\pi \times D \times \text{gear\_ratio}}$$
+
 $$\text{Pulse\_Freq (Hz)} = \frac{\text{RPM} \times \text{PPR} \times \text{CMX}}{60 \times \text{CDV}}$$
 
 ### Động học đĩa xoay:
 $$\text{Pulses} = \frac{\text{Angle\_deg}}{360^\circ} \times \text{PPR} \times \frac{\text{CMX}}{\text{CDV}}$$
+
 $$\text{Pulses\_accel} = \frac{\text{Peak\_frequency} \times \text{Accel\_time}}{2}$$
 
 ---
