@@ -96,13 +96,9 @@ Trước khi chạy test, bắt buộc cài đặt 4 tham số sau trên bảng 
 ## 6. Thuật toán cốt lõi & tính năng an toàn
 
 1. **Thuật toán tìm đường đi ngắn nhất vòng tròn 12 Lọ**:
-   $$
-   \begin{aligned}
-   d_{\text{cw}} &= (\text{target} - \text{current} + 12) \bmod 12 \\
-   \text{steps} &= \begin{cases} d_{\text{cw}} & \text{nếu } d_{\text{cw}} \le 6 \\ d_{\text{cw}} - 12 & \text{ngược lại} \end{cases} \\
-   \text{Pulses} &= \text{steps} \times 10{,}000 \text{ xung}
-   \end{aligned}
-   $$
+   - Công thức tính khoảng cách góc thuận (CW): `d_cw = (target - current + 12) % 12`
+   - Số bước chọn đường ngắn nhất: `steps = d_cw` (nếu `d_cw <= 6`), ngược lại `steps = d_cw - 12`
+   - Số xung phát tương ứng: `Pulses = steps * 10,000` (xung)
 
 2. **Thuật toán xử lý Race Condition 2 giai đoạn (`wait_for_rotation_done`)**:
    - *Giai đoạn 1*: Chờ cờ `M10`/`M11` chuyển sang `true` (Busy State).
