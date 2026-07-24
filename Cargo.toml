@@ -1,0 +1,18 @@
+[package]
+name = "plc_test_suite"
+version = "2.0.0"
+edition = "2021"
+description = "Hệ thống kiểm thử Motor Servo CSD7 qua PLC Delta DVP-28SS2 Modbus-RTU"
+
+[dependencies]
+# Async runtime
+tokio = { version = "1.35", features = ["full"] }
+
+# Asynchronous serial port communication
+tokio-serial = "5.4.4"
+
+# Modbus RTU support
+tokio-modbus = { version = "0.17.0", default-features = false, features = ["rtu"] }
+
+# Future utilities
+futures-util = "0.3"
