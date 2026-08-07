@@ -1,0 +1,20 @@
+# Cấu hình MOCK cho kiểm thử IPC
+[serial]
+port = "MOCK"
+baud_rate = 9600
+data_bits = 8
+stop_bits = 1
+parity = "even"
+
+[modbus]
+slave_address = 1
+
+[ipc]
+host = "127.0.0.1"
+port = 5555
+
+[disc]
+encoder_resolution = 131072
+default_frequency = 4000
+learning_coefficient = 0.1
+calibration_file = "calibration.json"

@@ -1,0 +1,38 @@
+# ============================================================================
+# Cấu hình hệ thống LoadingSystem - Rotating Disc Controller
+# ============================================================================
+# Đặt file này cùng thư mục với binary loading-daemon
+# Hoặc chỉ định đường dẫn qua argument: loading-daemon --config path/to/config.toml
+# ============================================================================
+
+[serial]
+# Cổng COM kết nối RS485 tới PLC Delta DVP14SS2
+# Đặt "MOCK" để chạy ở chế độ mô phỏng (không cần phần cứng)
+port = "MOCK"
+
+# Chuẩn Modbus RTU 8-bit cho Rust Backend (Khớp với MOV H67 D1120 hoặc MOV H87 D1120 trong PLC):
+baud_rate = 9600
+data_bits = 8
+stop_bits = 1
+parity = "even"
+
+[modbus]
+# Địa chỉ Slave của PLC Delta (mặc định = 1)
+slave_address = 1
+
+[ipc]
+# Địa chỉ TCP server cho giao tiếp với Python HMI
+host = "127.0.0.1"
+port = 5555
+
+[disc]
+# Độ phân giải encoder 17-bit: 2^17 = 131072 xung/vòng
+encoder_resolution = 131072
+# Tần số phát xung mặc định (Hz) - ảnh hưởng tốc độ quay
+default_frequency = 16384
+# Hệ số học lỗi thích nghi (0.0 - 1.0)
+# Giá trị cao = học nhanh nhưng nhạy nhiễu
+# Giá trị thấp = học chậm nhưng ổn định
+learning_coefficient = 0.1
+# Đường dẫn file lưu trữ dữ liệu hiệu chuẩn
+calibration_file = "calibration.json"

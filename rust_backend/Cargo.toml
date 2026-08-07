@@ -1,0 +1,49 @@
+[package]
+name = "loading-system"
+version = "1.0.0"
+edition = "2021"
+authors = ["Truong Hoang Nam <HCMUT Computer Engineering>"]
+description = "Async Backend Daemon for LoadingSystem Rotating Disc Controller"
+readme = "README.md"
+default-run = "loading-daemon"
+
+[[bin]]
+name = "loading-daemon"
+path = "src/main.rs"
+
+[lib]
+name = "loading_system"
+path = "src/lib.rs"
+
+[dependencies]
+# Async runtime
+tokio = { version = "1", features = ["full"] }
+
+# Modbus RTU communication
+tokio-modbus = { version = "0.14", default-features = false, features = ["rtu"] }
+tokio-serial = "5.4"
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Configuration
+toml = "0.8"
+
+# Async trait support
+async-trait = "0.1"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["fmt", "env-filter"] }
+
+# Error handling
+anyhow = "1"
+thiserror = "2"
+
+[dev-dependencies]
+tokio = { version = "1", features = ["full", "test-util"] }
+
+[profile.release]
+opt-level = 3
+lto = true
